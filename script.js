@@ -77,15 +77,15 @@ function priceToNumber(priceStr) {
 }
 
 function formatIQD(n) {
-    return n.toLocaleString('en-US') + ' IQD';
+    return n.toLocaleString('en-US') + ' ' + t('currency');
 }
 function badgeText(p) {
-    if (p.tags.includes('limited')) return 'Limited';
-    if (p.tags.includes('exclusive')) return 'Exclusive';
-    if (p.tags.includes('namaya')) return 'Namaya';
-    if (p.tags.includes('new')) return 'New';
-    if (p.tags.includes('trending')) return 'Trending';
-    return 'Featured';
+    if (p.tags.includes('limited')) return t('badge_limited');
+    if (p.tags.includes('exclusive')) return t('badge_exclusive');
+    if (p.tags.includes('namaya')) return t('badge_namaya');
+    if (p.tags.includes('new')) return t('badge_new');
+    if (p.tags.includes('trending')) return t('badge_trending');
+    return t('badge_featured');
 }
 
 function isFeatured(p) {
@@ -93,7 +93,7 @@ function isFeatured(p) {
 }
 
 function tagDisplay(p) {
-    return p.tags[0].charAt(0).toUpperCase() + p.tags[0].slice(1);
+    return t('badge_' + p.tags[0]);
 }
 
 function getFiltered() {
@@ -184,23 +184,23 @@ function renderGrid() {
         card.innerHTML = `
             <div class="card-frame">
                 <span class="card-badge ${isFeatured(p) ? 'featured' : ''}">${badgeText(p)}</span>
-                <button class="heart-btn ${isFav ? 'active' : ''}" data-fav="${p.id}" aria-label="Favorite">
+                <button class="heart-btn ${isFav ? 'active' : ''}" data-fav="${p.id}" aria-label="${t('favorite')}">
                     <i class="${isFav ? 'fas' : 'far'} fa-heart"></i>
                 </button>
                 <img class="card-img" src="${p.image}" alt="Aster ${p.ref}" loading="lazy">
                 <div class="card-quick">
-                    <span class="card-quick-text">${inCart ? 'Added · view detail' : 'View detail'}</span>
-                    <button class="card-quick-order" data-add="${p.id}" aria-label="${inCart ? 'In cart' : 'Add to cart'}" title="${inCart ? 'In cart' : 'Add to cart'}">
+                    <span class="card-quick-text">${inCart ? t('added_view') : t('view_detail')}</span>
+                    <button class="card-quick-order" data-add="${p.id}" aria-label="${inCart ? t('in_cart') : t('add_to_cart_short')}" title="${inCart ? t('in_cart') : t('add_to_cart_short')}">
                         <i class="fas ${inCart ? 'fa-check' : 'fa-plus'}"></i>
                     </button>
                 </div>
             </div>
             <div class="card-meta">
-                <span class="card-ref">Ref. ${p.ref}</span>
+                <span class="card-ref">${t('ref')} ${p.ref}</span>
                 <span class="card-tag">${tagDisplay(p)}</span>
             </div>
-            <h3 class="card-name"><em>Aster</em>Piece</h3>
-            <span class="card-price">${p.price}</span>
+            <h3 class="card-name"><em>Aster</em> ${t('piece')}</h3>
+            <span class="card-price">${localizePrice(p.price)}</span>
         `;
         frag.appendChild(card);
     });
@@ -311,8 +311,8 @@ function openModal(id) {
 
     $('#modal-image').src = p.image;
     $('#modal-image').alt = `Aster ${p.ref}`;
-    $('#modal-eyebrow').textContent = `${badgeText(p)} · Ref. ${p.ref}`;
-    $('#modal-price').textContent = p.price;
+    $('#modal-eyebrow').textContent = `${badgeText(p)} · ${t('ref')} ${p.ref}`;
+    $('#modal-price').textContent = localizePrice(p.price);
     $('#qty-value').textContent = 1;
 
     const isFav = favorites.includes(p.id);
@@ -363,7 +363,7 @@ $('#modal-add').addEventListener('click', () => {
 $('#modal-order').addEventListener('click', () => {
     if (!currentProduct) return;
     const q = parseInt($('#qty-value').textContent);
-    const msg = `Hello Aster Luxury,\n\nI would like to order:\n\nReference: ${currentProduct.ref}\nPrice: ${currentProduct.price}\nQuantity: ${q}\n\nPlease share more details. Thank you!`;
+    const msg = t('wa_single', { ref: currentProduct.ref, price: localizePrice(currentProduct.price), qty: q });
     window.open(`https://wa.me/${WA}?text=${encodeURIComponent(msg)}`, '_blank');
 });
 
@@ -383,7 +383,7 @@ $('#modal-fav').addEventListener('click', () => {
 function quickOrder(id) {
     const p = products.find(x => x.id === id);
     if (!p) return;
-    const msg = `Hello Aster Luxury,\n\nI would like to order:\n\nReference: ${p.ref}\nPrice: ${p.price}\nQuantity: 1\n\nPlease share more details. Thank you!`;
+    const msg = t('wa_single', { ref: p.ref, price: localizePrice(p.price), qty: 1 });
     window.open(`https://wa.me/${WA}?text=${encodeURIComponent(msg)}`, '_blank');
 }
 
@@ -394,10 +394,10 @@ function toggleFav(id) {
     const i = favorites.indexOf(id);
     if (i === -1) {
         favorites.push(id);
-        toast('Added to favorites');
+        toast(t('fav_added'));
     } else {
         favorites.splice(i, 1);
-        toast('Removed from favorites');
+        toast(t('fav_removed'));
     }
     localStorage.setItem('aster_favs', JSON.stringify(favorites));
     updateFavCount();
@@ -421,7 +421,7 @@ function updateFavCount() {
 
 $('#favorites-btn').addEventListener('click', () => {
     if (favorites.length === 0) {
-        toast('No favorites yet — tap the heart on any piece');
+        toast(t('fav_none'));
         return;
     }
     // Show only favorites in grid
@@ -436,29 +436,29 @@ $('#favorites-btn').addEventListener('click', () => {
         card.innerHTML = `
             <div class="card-frame">
                 <span class="card-badge ${isFeatured(p) ? 'featured' : ''}">${badgeText(p)}</span>
-                <button class="heart-btn active" data-fav="${p.id}" aria-label="Favorite">
+                <button class="heart-btn active" data-fav="${p.id}" aria-label="${t('favorite')}">
                     <i class="fas fa-heart"></i>
                 </button>
                 <img class="card-img" src="${p.image}" alt="Aster ${p.ref}" loading="lazy">
                 <div class="card-quick">
-                    <span class="card-quick-text">${inCart ? 'Added · view detail' : 'View detail'}</span>
-                    <button class="card-quick-order" data-add="${p.id}" aria-label="${inCart ? 'In cart' : 'Add to cart'}">
+                    <span class="card-quick-text">${inCart ? t('added_view') : t('view_detail')}</span>
+                    <button class="card-quick-order" data-add="${p.id}" aria-label="${inCart ? t('in_cart') : t('add_to_cart_short')}">
                         <i class="fas ${inCart ? 'fa-check' : 'fa-plus'}"></i>
                     </button>
                 </div>
             </div>
             <div class="card-meta">
-                <span class="card-ref">Ref. ${p.ref}</span>
+                <span class="card-ref">${t('ref')} ${p.ref}</span>
                 <span class="card-tag">${tagDisplay(p)}</span>
             </div>
-            <h3 class="card-name"><em>Aster</em>Piece</h3>
-            <span class="card-price">${p.price}</span>
+            <h3 class="card-name"><em>Aster</em> ${t('piece')}</h3>
+            <span class="card-price">${localizePrice(p.price)}</span>
         `;
         grid.appendChild(card);
     });
     $$('.chip[data-filter]').forEach(c => c.classList.remove('active'));
     $('#shop').scrollIntoView({ behavior: 'smooth' });
-    toast(`${list.length} favorite piece${list.length > 1 ? 's' : ''}`);
+    toast(t('fav_count', { n: list.length }));
     attachCardHandlers();
 });
 
@@ -500,7 +500,7 @@ function runSearch(q) {
     ).slice(0, 8);
 
     if (matches.length === 0) {
-        searchResults.innerHTML = `<div style="padding: 24px; text-align: center; color: var(--muted); font-style: italic;">No matches — try a reference like AL-015</div>`;
+        searchResults.innerHTML = `<div style="padding: 24px; text-align: center; color: var(--muted); font-style: italic;">${t('search_no_match')}</div>`;
         return;
     }
     matches.forEach(p => {
@@ -509,8 +509,8 @@ function runSearch(q) {
         item.innerHTML = `
             <img src="${p.image}" alt="${p.ref}">
             <div class="search-result-info">
-                <strong>Aster Piece — Ref. ${p.ref}</strong>
-                <span>${p.price} · ${tagDisplay(p)}</span>
+                <strong>${t('search_result_name', { ref: p.ref })}</strong>
+                <span>${localizePrice(p.price)} · ${tagDisplay(p)}</span>
             </div>
             <i class="fas fa-arrow-right search-result-arrow"></i>
         `;
@@ -614,10 +614,10 @@ function addToCart(id, qty = 1) {
     const existing = cart.find(c => c.id === id);
     if (existing) {
         existing.qty = Math.min(10, existing.qty + qty);
-        toast(`Quantity updated · Ref. ${product.ref}`);
+        toast(t('qty_updated', { ref: product.ref }));
     } else {
         cart.push({ id, qty });
-        toast(`Added to cart · Ref. ${product.ref}`);
+        toast(t('added_cart', { ref: product.ref }));
     }
     saveCart();
     updateCartCount();
@@ -650,7 +650,7 @@ function clearCart() {
     updateCartCount();
     renderCart();
     ids.forEach(refreshCardCartState);
-    toast('Cart cleared');
+    toast(t('cart_cleared'));
 }
 
 function refreshCardCartState(id) {
@@ -660,11 +660,11 @@ function refreshCardCartState(id) {
         const btn = card.querySelector('[data-add]');
         if (btn) {
             btn.querySelector('i').className = 'fas ' + (inCart ? 'fa-check' : 'fa-plus');
-            btn.setAttribute('aria-label', inCart ? 'In cart' : 'Add to cart');
-            btn.setAttribute('title', inCart ? 'In cart' : 'Add to cart');
+            btn.setAttribute('aria-label', inCart ? t('in_cart') : t('add_to_cart_short'));
+            btn.setAttribute('title', inCart ? t('in_cart') : t('add_to_cart_short'));
         }
         const text = card.querySelector('.card-quick-text');
-        if (text) text.textContent = inCart ? 'Added · view detail' : 'View detail';
+        if (text) text.textContent = inCart ? t('added_view') : t('view_detail');
     });
 }
 
@@ -712,19 +712,19 @@ function renderCart() {
             <div class="cart-item-info">
                 <div class="cart-item-top">
                     <div class="cart-item-meta">
-                        <span class="cart-item-ref">Ref. ${p.ref}</span>
-                        <h4 class="cart-item-name"><em>Aster</em>Piece</h4>
-                        <div class="cart-item-price">${p.price}</div>
+                        <span class="cart-item-ref">${t('ref')} ${p.ref}</span>
+                        <h4 class="cart-item-name"><em>Aster</em> ${t('piece')}</h4>
+                        <div class="cart-item-price">${localizePrice(p.price)}</div>
                     </div>
-                    <button class="cart-item-remove" data-cart-remove="${p.id}" aria-label="Remove">
+                    <button class="cart-item-remove" data-cart-remove="${p.id}" aria-label="${t('remove')}">
                         <i class="fas fa-times"></i>
                     </button>
                 </div>
                 <div class="cart-item-bottom">
                     <div class="cart-qty">
-                        <button data-cart-dec="${p.id}" aria-label="Decrease">−</button>
+                        <button data-cart-dec="${p.id}" aria-label="${t('decrease')}">−</button>
                         <span>${c.qty}</span>
-                        <button data-cart-inc="${p.id}" aria-label="Increase">+</button>
+                        <button data-cart-inc="${p.id}" aria-label="${t('increase')}">+</button>
                     </div>
                     <span class="cart-item-line">${formatIQD(lineTotal)}</span>
                 </div>
@@ -733,7 +733,7 @@ function renderCart() {
         cartBody.appendChild(item);
     });
 
-    $('#cart-items-count').textContent = itemCount + ' piece' + (itemCount !== 1 ? 's' : '');
+    $('#cart-items-count').textContent = t('pieces_count', { n: itemCount });
     $('#cart-total').textContent = formatIQD(total);
 }
 
@@ -788,7 +788,7 @@ document.body.addEventListener('click', (e) => {
     if (e.target.closest('#cart-clear')) {
         e.preventDefault();
         if (cart.length === 0) return;
-        if (confirm('Remove all pieces from your cart?')) clearCart();
+        if (confirm(t('cart_confirm_clear'))) clearCart();
         return;
     }
     // Send order via WhatsApp
@@ -815,17 +815,63 @@ function sendCartOrder() {
         const lineTotal = unit * c.qty;
         total += lineTotal;
         totalQty += c.qty;
-        return `${i + 1}. Ref. ${p.ref}\n   Quantity: ${c.qty}\n   Price: ${p.price}\n   Subtotal: ${formatIQD(lineTotal)}`;
+        return t('wa_line', { i: i + 1, ref: p.ref, qty: c.qty, price: localizePrice(p.price), sub: formatIQD(lineTotal) });
     }).filter(Boolean).join('\n\n');
 
-    const msg = `Hello Aster Luxury,\n\nI would like to order the following pieces:\n\n${lines}\n\n────────────────\nTotal pieces: ${totalQty}\nEstimated total: ${formatIQD(total)}\n\nPlease confirm availability and delivery details. Thank you!`;
+    const msg = t('wa_cart_intro') + '\n\n' + lines + '\n\n' + t('wa_cart_outro', { totalQty: totalQty, total: formatIQD(total) });
 
     window.open(`https://wa.me/${WA}?text=${encodeURIComponent(msg)}`, '_blank');
 }
 
 // ==========================================================
+// LANGUAGE SWITCHER
+// ==========================================================
+function setLanguage(lang) {
+    setLangStored(lang);
+    applyStaticI18n();
+    updateCounts();
+    renderGrid();
+    renderCart();
+    updateFavCount();
+    updateCartCount();
+    // Refresh the product modal if it is currently open
+    if (currentProduct && modal.getAttribute('aria-hidden') === 'false') {
+        openModal(currentProduct.id);
+    }
+}
+
+(function initLangSwitcher() {
+    const langSwitch = $('#lang-switch');
+    const langBtn = $('#lang-btn');
+    if (!langSwitch || !langBtn) return;
+
+    langBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const open = langSwitch.classList.toggle('open');
+        langBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+
+    $$('.lang-option').forEach(opt => {
+        opt.addEventListener('click', (e) => {
+            e.preventDefault();
+            setLanguage(opt.getAttribute('data-lang'));
+            langSwitch.classList.remove('open');
+            langBtn.setAttribute('aria-expanded', 'false');
+        });
+    });
+
+    document.addEventListener('click', (e) => {
+        if (!langSwitch.contains(e.target)) {
+            langSwitch.classList.remove('open');
+            langBtn.setAttribute('aria-expanded', 'false');
+        }
+    });
+})();
+
+// ==========================================================
 // INIT
 // ==========================================================
+applyStaticI18n();
 updateCounts();
 renderGrid();
 updateFavCount();
