@@ -9,6 +9,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <!-- Arabic & Kurdish (Badini) typefaces — full Arabic-script coverage incl. Kurdish letters -->
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400;1,700&family=Noto+Kufi+Arabic:wght@300;400;500;600;700&family=Noto+Naskh+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
 </head>
@@ -36,14 +38,26 @@
     </a>
 
     <nav class="nav-desktop">
-        <a href="#home" class="nav-link active">Home</a>
-        <a href="#shop" class="nav-link">Shop</a>
-        <a href="#story" class="nav-link">Story</a>
-        <a href="#contact" class="nav-link">Contact</a>
+        <a href="#home" class="nav-link active" data-i18n="nav_home">Home</a>
+        <a href="#shop" class="nav-link" data-i18n="nav_shop">Shop</a>
+        <a href="#story" class="nav-link" data-i18n="nav_story">Story</a>
+        <a href="#contact" class="nav-link" data-i18n="nav_contact">Contact</a>
     </nav>
 
     <div class="header-actions">
-        <button class="icon-btn" id="search-btn" aria-label="Search">
+        <div class="lang-switch" id="lang-switch">
+            <button class="lang-btn" id="lang-btn" aria-haspopup="true" aria-expanded="false" aria-label="Language">
+                <i class="fas fa-globe"></i>
+                <span class="lang-current" id="lang-current">کوردی (بادینی)</span>
+                <i class="fas fa-chevron-down lang-caret"></i>
+            </button>
+            <div class="lang-menu" id="lang-menu" role="menu">
+                <button class="lang-option" data-lang="ku" role="menuitem">کوردی (بادینی)</button>
+                <button class="lang-option" data-lang="ar" role="menuitem">العربية</button>
+                <button class="lang-option" data-lang="en" role="menuitem">English</button>
+            </div>
+        </div>
+        <button class="icon-btn" id="search-btn" aria-label="Search" data-i18n-attr="aria-label:search_label">
             <i class="fas fa-search"></i>
         </button>
         <button class="icon-btn" id="favorites-btn" aria-label="Favorites">
@@ -66,17 +80,17 @@
 <div class="search-overlay" id="search-overlay">
     <button class="search-close" id="search-close" aria-label="Close"><i class="fas fa-times"></i></button>
     <div class="search-inner">
-        <label class="search-label">Search</label>
+        <label class="search-label" data-i18n="search_label">Search</label>
         <div class="search-field">
-            <input type="text" id="search-input" placeholder="Try 'AL-015', 'exclusive', or '10,000'" autocomplete="off">
+            <input type="text" id="search-input" placeholder="Try 'AL-015', 'exclusive', or '10,000'" autocomplete="off" data-i18n-attr="placeholder:search_placeholder">
             <span class="search-cursor"></span>
         </div>
         <div class="search-suggestions">
-            <span class="suggestion-label">Try:</span>
-            <button class="suggestion-chip" data-search="exclusive">Exclusive</button>
-            <button class="suggestion-chip" data-search="new">New</button>
-            <button class="suggestion-chip" data-search="namaya">Namaya</button>
-            <button class="suggestion-chip" data-search="limited">Limited</button>
+            <span class="suggestion-label" data-i18n="search_try">Try:</span>
+            <button class="suggestion-chip" data-search="exclusive" data-i18n="chip_exclusive">Exclusive</button>
+            <button class="suggestion-chip" data-search="new" data-i18n="chip_new">New</button>
+            <button class="suggestion-chip" data-search="namaya" data-i18n="chip_namaya">Namaya</button>
+            <button class="suggestion-chip" data-search="limited" data-i18n="chip_limited">Limited</button>
         </div>
         <div class="search-results" id="search-results"></div>
     </div>
@@ -87,10 +101,10 @@
 ============================================ -->
 <div class="mobile-menu" id="mobile-menu">
     <nav>
-        <a href="#home"><span class="num">01</span><span>Home</span><i class="fas fa-arrow-right"></i></a>
-        <a href="#shop"><span class="num">02</span><span>Shop</span><i class="fas fa-arrow-right"></i></a>
-        <a href="#story"><span class="num">03</span><span>Story</span><i class="fas fa-arrow-right"></i></a>
-        <a href="#contact"><span class="num">04</span><span>Contact</span><i class="fas fa-arrow-right"></i></a>
+        <a href="#home"><span class="num">01</span><span data-i18n="nav_home">Home</span><i class="fas fa-arrow-right"></i></a>
+        <a href="#shop"><span class="num">02</span><span data-i18n="nav_shop">Shop</span><i class="fas fa-arrow-right"></i></a>
+        <a href="#story"><span class="num">03</span><span data-i18n="nav_story">Story</span><i class="fas fa-arrow-right"></i></a>
+        <a href="#contact"><span class="num">04</span><span data-i18n="nav_contact">Contact</span><i class="fas fa-arrow-right"></i></a>
     </nav>
     <div class="mobile-menu-foot">
         <a href="https://wa.me/9647503307830" target="_blank" rel="noopener">
@@ -110,8 +124,8 @@
     <div class="cart-panel">
         <header class="cart-head">
             <div>
-                <span class="cart-eyebrow">Your Selection</span>
-                <h3 class="cart-title">The <em>Cart</em></h3>
+                <span class="cart-eyebrow" data-i18n="cart_eyebrow">Your Selection</span>
+                <h3 class="cart-title" data-i18n-html="cart_title">The <em>Cart</em></h3>
             </div>
             <button class="icon-btn" data-cart-close aria-label="Close cart">
                 <i class="fas fa-times"></i>
@@ -124,31 +138,31 @@
 
         <div class="cart-empty" id="cart-empty">
             <span class="empty-mark">◆</span>
-            <h4>Your cart is empty</h4>
-            <p>Tap any piece to add it to your selection</p>
-            <button class="cta-link" data-cart-close>Browse the collection <i class="fas fa-arrow-right"></i></button>
+            <h4 data-i18n="cart_empty_title">Your cart is empty</h4>
+            <p data-i18n="cart_empty_text">Tap any piece to add it to your selection</p>
+            <button class="cta-link" data-cart-close><span data-i18n="cart_browse">Browse the collection</span> <i class="fas fa-arrow-right"></i></button>
         </div>
 
         <footer class="cart-foot" id="cart-foot">
             <div class="cart-summary">
                 <div class="cart-row">
-                    <span>Items</span>
+                    <span data-i18n="cart_items">Items</span>
                     <span id="cart-items-count">0</span>
                 </div>
                 <div class="cart-row total">
-                    <span>Total</span>
+                    <span data-i18n="cart_total">Total</span>
                     <span id="cart-total">0 IQD</span>
                 </div>
-                <p class="cart-note">
+                <p class="cart-note" data-i18n-html="cart_note">
                     <i class="fas fa-info-circle"></i>
                     Final total confirmed on WhatsApp. Delivery available across Iraq.
                 </p>
             </div>
             <button class="cta cta-block" id="cart-order">
-                <span><i class="fab fa-whatsapp"></i> Send Order via WhatsApp</span>
+                <span data-i18n-html="cart_send"><i class="fab fa-whatsapp"></i> Send Order via WhatsApp</span>
                 <span class="cta-arrow"><i class="fas fa-arrow-right"></i></span>
             </button>
-            <button class="cart-clear" id="cart-clear">Clear cart</button>
+            <button class="cart-clear" id="cart-clear" data-i18n="cart_clear">Clear cart</button>
         </footer>
     </div>
 </aside>
@@ -162,26 +176,26 @@
     <div class="hero-content">
         <span class="hero-tag">
             <span class="hero-tag-dot"></span>
-            Curated Collection · Since 2023
+            <span data-i18n="hero_tag">Curated Collection · Since 2023</span>
         </span>
 
-        <h1 class="hero-headline">
+        <h1 class="hero-headline" data-i18n-html="hero_headline">
             <span class="hero-word" data-word="Quiet">Quiet</span>
             <span class="hero-word" data-word="luxury,"><em>luxury,</em></span>
             <span class="hero-word" data-word="loud">loud</span>
             <span class="hero-word" data-word="impressions."><em>impressions.</em></span>
         </h1>
 
-        <p class="hero-lede">
+        <p class="hero-lede" data-i18n="hero_lede">
             A curated edit of jewelry pieces — chosen with intention, designed for the woman who knows her own style, worn with quiet confidence.
         </p>
 
         <div class="hero-actions">
             <a href="#shop" class="cta">
-                <span>Explore the collection</span>
+                <span data-i18n="hero_explore">Explore the collection</span>
                 <span class="cta-arrow"><i class="fas fa-arrow-right"></i></span>
             </a>
-            <a href="https://wa.me/9647503307830" target="_blank" rel="noopener" class="cta-link">
+            <a href="https://wa.me/9647503307830" target="_blank" rel="noopener" class="cta-link" data-i18n-html="hero_chat">
                 <i class="fab fa-whatsapp"></i> Chat with us
             </a>
         </div>
@@ -215,14 +229,14 @@
     </div>
 
     <div class="hero-scroll">
-        <span>Scroll</span>
+        <span data-i18n="scroll">Scroll</span>
         <span class="hero-scroll-line"></span>
     </div>
 
     <div class="hero-meta">
-        <div><span class="meta-num">55</span><span class="meta-lbl">Pieces</span></div>
-        <div><span class="meta-num">100%</span><span class="meta-lbl">Authentic</span></div>
-        <div><span class="meta-num">Iraq</span><span class="meta-lbl">Wide Delivery</span></div>
+        <div><span class="meta-num">55</span><span class="meta-lbl" data-i18n="meta_pieces">Pieces</span></div>
+        <div><span class="meta-num">100%</span><span class="meta-lbl" data-i18n="meta_authentic">Authentic</span></div>
+        <div><span class="meta-num" data-i18n="meta_iraq">Iraq</span><span class="meta-lbl" data-i18n="meta_delivery">Wide Delivery</span></div>
     </div>
 </section>
 
@@ -231,17 +245,17 @@
 ============================================ -->
 <div class="ribbon">
     <div class="ribbon-track">
-        <span>Delivery Available Across Iraq</span>
+        <span data-i18n="ribbon_delivery">Delivery Available Across Iraq</span>
         <span class="bullet">◆</span>
-        <span><em>Authentic</em> Quality Pieces</span>
+        <span data-i18n-html="ribbon_authentic"><em>Authentic</em> Quality Pieces</span>
         <span class="bullet">◆</span>
-        <span>Order Direct on WhatsApp</span>
+        <span data-i18n="ribbon_order">Order Direct on WhatsApp</span>
         <span class="bullet">◆</span>
-        <span>Delivery Available Across Iraq</span>
+        <span data-i18n="ribbon_delivery">Delivery Available Across Iraq</span>
         <span class="bullet">◆</span>
-        <span><em>Authentic</em> Quality Pieces</span>
+        <span data-i18n-html="ribbon_authentic"><em>Authentic</em> Quality Pieces</span>
         <span class="bullet">◆</span>
-        <span>Order Direct on WhatsApp</span>
+        <span data-i18n="ribbon_order">Order Direct on WhatsApp</span>
         <span class="bullet">◆</span>
     </div>
 </div>
@@ -255,37 +269,37 @@
             <div class="about-left">
                 <span class="section-label">
                     <span class="label-dot"></span>
-                    The Maison
+                    <span data-i18n="about_label">The Maison</span>
                 </span>
-                <h2 class="about-title">
+                <h2 class="about-title" data-i18n-html="about_title">
                     Selected with care,<br>
                     <em>worn with pride.</em>
                 </h2>
             </div>
             <div class="about-right">
-                <p class="about-lede">
+                <p class="about-lede" data-i18n="about_lede">
                     Aster Luxury is a curated fine jewelry boutique with one obsession: that beautiful pieces should feel as personal as they look. Every item in our collection is carefully selected for quality and character, then delivered directly to those who appreciate the difference.
                 </p>
                 <div class="about-features">
                     <div class="about-feature">
                         <span class="feat-num">01</span>
-                        <h3>Curated Selection</h3>
-                        <p>A small collection, chosen for craft and character.</p>
+                        <h3 data-i18n="feat1_title">Curated Selection</h3>
+                        <p data-i18n="feat1_text">A small collection, chosen for craft and character.</p>
                     </div>
                     <div class="about-feature">
                         <span class="feat-num">02</span>
-                        <h3>Direct to You</h3>
-                        <p>No middlemen. Order direct, talk direct, save direct.</p>
+                        <h3 data-i18n="feat2_title">Direct to You</h3>
+                        <p data-i18n="feat2_text">No middlemen. Order direct, talk direct, save direct.</p>
                     </div>
                     <div class="about-feature">
                         <span class="feat-num">03</span>
-                        <h3>Iraq-Wide Delivery</h3>
-                        <p>Delivery available across all Iraqi governorates.</p>
+                        <h3 data-i18n="feat3_title">Iraq-Wide Delivery</h3>
+                        <p data-i18n="feat3_text">Delivery available across all Iraqi governorates.</p>
                     </div>
                     <div class="about-feature">
                         <span class="feat-num">04</span>
-                        <h3>Personal Service</h3>
-                        <p>Every customer matters. Reach us directly on WhatsApp.</p>
+                        <h3 data-i18n="feat4_title">Personal Service</h3>
+                        <p data-i18n="feat4_text">Every customer matters. Reach us directly on WhatsApp.</p>
                     </div>
                 </div>
             </div>
@@ -303,41 +317,41 @@
                 <div>
                     <span class="section-label">
                         <span class="label-dot"></span>
-                        The Collection
+                        <span data-i18n="shop_label">The Collection</span>
                     </span>
-                    <h2 class="shop-title">
+                    <h2 class="shop-title" data-i18n-html="shop_title">
                         Every piece,<br>
                         <em>a quiet statement.</em>
                     </h2>
                 </div>
                 <p class="shop-lede">
-                    <span id="visible-count">55</span> pieces, each with its own reference number. Tap any piece to see it up close, or order directly via WhatsApp.
+                    <span id="visible-count">55</span><span data-i18n="shop_lede_text"> pieces, each with its own reference number. Tap any piece to see it up close, or order directly via WhatsApp.</span>
                 </p>
             </div>
 
             <div class="filter-rail" id="filter-rail">
                 <button class="chip active" data-filter="all">
-                    <span>All</span>
+                    <span data-i18n="chip_all">All</span>
                     <span class="chip-num" id="count-all">55</span>
                 </button>
                 <button class="chip" data-filter="new">
-                    <span>New</span>
+                    <span data-i18n="chip_new">New</span>
                     <span class="chip-num" id="count-new"></span>
                 </button>
                 <button class="chip" data-filter="trending">
-                    <span>Trending</span>
+                    <span data-i18n="chip_trending">Trending</span>
                     <span class="chip-num" id="count-trending"></span>
                 </button>
                 <button class="chip" data-filter="exclusive">
-                    <span>Exclusive</span>
+                    <span data-i18n="chip_exclusive">Exclusive</span>
                     <span class="chip-num" id="count-exclusive"></span>
                 </button>
                 <button class="chip" data-filter="limited">
-                    <span>Limited</span>
+                    <span data-i18n="chip_limited">Limited</span>
                     <span class="chip-num" id="count-limited"></span>
                 </button>
                 <button class="chip" data-filter="namaya">
-                    <span>Namaya</span>
+                    <span data-i18n="chip_namaya">Namaya</span>
                     <span class="chip-num" id="count-namaya"></span>
                 </button>
                 <div class="filter-divider"></div>
@@ -353,8 +367,8 @@
 
         <div class="empty" id="empty" hidden>
             <span class="empty-mark">◆</span>
-            <h3>No pieces in this filter yet</h3>
-            <button class="cta-link" data-filter="all">View all pieces <i class="fas fa-arrow-right"></i></button>
+            <h3 data-i18n="empty_title">No pieces in this filter yet</h3>
+            <button class="cta-link" data-filter="all"><span data-i18n="view_all">View all pieces</span> <i class="fas fa-arrow-right"></i></button>
         </div>
     </div>
 </section>
@@ -367,16 +381,16 @@
         <div class="callout-inner">
             <span class="section-label light">
                 <span class="label-dot"></span>
-                Personal Service
+                <span data-i18n="callout_label">Personal Service</span>
             </span>
-            <h2 class="callout-title">
+            <h2 class="callout-title" data-i18n-html="callout_title">
                 Looking for something <em>specific?</em>
             </h2>
-            <p class="callout-text">
+            <p class="callout-text" data-i18n="callout_text">
                 Our team is one message away. Share what you're looking for and we'll help you find your piece.
             </p>
             <a href="https://wa.me/9647503307830" target="_blank" rel="noopener" class="cta cta-light">
-                <span><i class="fab fa-whatsapp"></i> Open WhatsApp</span>
+                <span data-i18n-html="callout_open"><i class="fab fa-whatsapp"></i> Open WhatsApp</span>
                 <span class="cta-arrow"><i class="fas fa-arrow-right"></i></span>
             </a>
         </div>
@@ -401,28 +415,28 @@
                     </span>
                     <span class="brand-name">Aster<em>Luxury</em></span>
                 </a>
-                <p class="footer-tag">Curated fine jewelry for the modern romantic.</p>
+                <p class="footer-tag" data-i18n="footer_tag">Curated fine jewelry for the modern romantic.</p>
             </div>
 
             <div class="footer-col">
-                <h4>Navigate</h4>
-                <a href="#home">Home</a>
-                <a href="#shop">Shop</a>
-                <a href="#story">Story</a>
-                <a href="#contact">Contact</a>
+                <h4 data-i18n="footer_navigate">Navigate</h4>
+                <a href="#home" data-i18n="nav_home">Home</a>
+                <a href="#shop" data-i18n="nav_shop">Shop</a>
+                <a href="#story" data-i18n="nav_story">Story</a>
+                <a href="#contact" data-i18n="nav_contact">Contact</a>
             </div>
 
             <div class="footer-col">
-                <h4>Discover</h4>
-                <a href="#" data-quick-filter="new">New Arrivals</a>
-                <a href="#" data-quick-filter="trending">Trending</a>
-                <a href="#" data-quick-filter="exclusive">Exclusive</a>
-                <a href="#" data-quick-filter="limited">Limited</a>
-                <a href="#" data-quick-filter="namaya">Namaya</a>
+                <h4 data-i18n="footer_discover">Discover</h4>
+                <a href="#" data-quick-filter="new" data-i18n="footer_new_arrivals">New Arrivals</a>
+                <a href="#" data-quick-filter="trending" data-i18n="chip_trending">Trending</a>
+                <a href="#" data-quick-filter="exclusive" data-i18n="chip_exclusive">Exclusive</a>
+                <a href="#" data-quick-filter="limited" data-i18n="chip_limited">Limited</a>
+                <a href="#" data-quick-filter="namaya" data-i18n="chip_namaya">Namaya</a>
             </div>
 
             <div class="footer-col">
-                <h4>Reach Us</h4>
+                <h4 data-i18n="footer_reach">Reach Us</h4>
                 <a href="https://wa.me/9647503307830" target="_blank" rel="noopener">
                     <i class="fab fa-whatsapp"></i> +964 750 330 7830
                 </a>
@@ -432,7 +446,7 @@
                 <a href="mailto:Baravan556@gmail.com">
                     <i class="far fa-envelope"></i> Baravan556@gmail.com
                 </a>
-                <span class="footer-note">Delivery available across Iraq</span>
+                <span class="footer-note" data-i18n="footer_delivery_note">Delivery available across Iraq</span>
             </div>
         </div>
 
@@ -440,7 +454,7 @@
 
         <div class="footer-bottom">
             <span>&copy; <span id="year"></span> Aster Luxury</span>
-            <span>Made with <i class="fas fa-gem"></i> for you</span>
+            <span data-i18n-html="footer_made">Made with <i class="fas fa-gem"></i> for you</span>
         </div>
     </div>
 </footer>
@@ -467,7 +481,7 @@
             </div>
             <div class="modal-info">
                 <span class="modal-eyebrow" id="modal-eyebrow"></span>
-                <h2 class="modal-name"><em>Aster</em> Piece</h2>
+                <h2 class="modal-name"><em>Aster</em> <span data-i18n="piece">Piece</span></h2>
                 <div class="modal-price-row">
                     <span class="modal-price" id="modal-price"></span>
                     <button class="heart-btn" id="modal-fav" aria-label="Favorite">
@@ -476,13 +490,13 @@
                 </div>
 
                 <div class="modal-list">
-                    <div><i class="fas fa-gem"></i><span>Quality pieces, carefully selected</span></div>
-                    <div><i class="fas fa-truck"></i><span>Delivery available across Iraq</span></div>
-                    <div><i class="fas fa-shield-alt"></i><span>100% authentic, guaranteed</span></div>
+                    <div><i class="fas fa-gem"></i><span data-i18n="modal_q1">Quality pieces, carefully selected</span></div>
+                    <div><i class="fas fa-truck"></i><span data-i18n="modal_q2">Delivery available across Iraq</span></div>
+                    <div><i class="fas fa-shield-alt"></i><span data-i18n="modal_q3">100% authentic, guaranteed</span></div>
                 </div>
 
                 <div class="qty-row">
-                    <span class="qty-label">Quantity</span>
+                    <span class="qty-label" data-i18n="quantity">Quantity</span>
                     <div class="qty">
                         <button id="qty-minus" aria-label="Decrease">−</button>
                         <span id="qty-value">1</span>
@@ -491,10 +505,10 @@
                 </div>
 
                 <button class="cta cta-block" id="modal-add">
-                    <span><i class="fas fa-plus"></i> Add to Cart</span>
+                    <span data-i18n-html="add_to_cart"><i class="fas fa-plus"></i> Add to Cart</span>
                     <span class="cta-arrow"><i class="fas fa-arrow-right"></i></span>
                 </button>
-                <button class="cta-link cart-quick-buy" id="modal-order">
+                <button class="cta-link cart-quick-buy" id="modal-order" data-i18n-html="order_now">
                     <i class="fab fa-whatsapp"></i> Order this piece now
                 </button>
             </div>
@@ -510,6 +524,7 @@
     <span id="toast-msg"></span>
 </div>
 
+<script src="i18n.js"></script>
 <script src="script.js"></script>
 </body>
 </html>
