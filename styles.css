@@ -2645,6 +2645,57 @@ html[lang="ku"] body {
     line-height: 1.85;
 }
 
+/* Arabic-script glyphs are taller and carry dots/marks above & below.
+   The Latin display styles use tight (<1) line-heights, negative letter
+   spacing and overflow:hidden reveals, which clip the tops/bottoms of
+   Arabic & Kurdish letters. Relax those for RTL so big headings never
+   get cut off. */
+html[dir="rtl"] .hero-headline,
+html[dir="rtl"] .about-title,
+html[dir="rtl"] .shop-title,
+html[dir="rtl"] .callout-title {
+    line-height: 1.45;
+    letter-spacing: 0;
+    font-variation-settings: normal;
+}
+
+html[dir="rtl"] .hero-headline {
+    /* extra breathing room so descenders/marks are never trimmed */
+    padding-block: 0.12em;
+}
+
+/* The word-reveal wraps each word in an overflow:hidden box and slides it
+   up — that crops tall Arabic glyphs. For RTL, drop the clip and fade the
+   words in instead (keeps the staggered entrance, no clipping). */
+html[dir="rtl"] .hero-word {
+    overflow: visible;
+    margin-right: 0;
+    margin-left: 0.18em;
+    line-height: 1.45;
+}
+html[dir="rtl"] .hero-word > * {
+    transform: none;
+    opacity: 0;
+    animation: rtlWordIn 0.8s var(--ease) forwards;
+}
+@keyframes rtlWordIn {
+    from { opacity: 0; transform: translateY(0.25em); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Section eyebrow labels & meta use uppercase + wide tracking, which is
+   meaningless and ugly for Arabic script — normalise them. */
+html[dir="rtl"] .hero-tag,
+html[dir="rtl"] .section-label,
+html[dir="rtl"] .cart-eyebrow,
+html[dir="rtl"] .meta-lbl,
+html[dir="rtl"] .nav-link,
+html[dir="rtl"] .chip,
+html[dir="rtl"] .modal-eyebrow {
+    letter-spacing: 0;
+    text-transform: none;
+}
+
 /* --- Language switcher --- */
 .lang-switch { position: relative; }
 
